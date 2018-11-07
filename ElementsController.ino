@@ -9,6 +9,7 @@ int fanSpeed;
 int rotation;
 int lastRotation;
 int joyStickSwitch;
+int switchPin;
 
 void setup() {
   // put your setup code here, to run once:
@@ -16,12 +17,14 @@ void setup() {
   joyStickXPin = 14;
   joyStickYPin = 15;
   potMeterPin = 16;
+  switchPin = 10;
   fanPin = A3;
   pinMode(joyStickSwitchPin, INPUT);
   pinMode(joyStickXPin, INPUT);
   pinMode(joyStickYPin, INPUT);
   pinMode(potMeterPin, INPUT);
   pinMode(fanPin, INPUT);
+  pinMode(switchPin, INPUT_PULLUP);
 }
 
 void loop() {
@@ -40,36 +43,54 @@ void loop() {
   else
   {
     if(rotation - lastRotation > 5){
-      Serial.println(rotation - lastRotation);
+      Keyboard.write("5");
     }
   }
+  
   lastRotation = rotation;
   if(fanSpeed <= 10){
     Serial.print("fan Output: ");
     Serial.println(fanSpeed);
+    Keyboard.write("6");
   }
 
-  if(xx < 450 || xx > 580){
+  if(xx < 450){
     
     Serial.print("Joy stick x");
     Serial.println(xx);
+    Keyboard.write("l");
     
   }
 
-  if(yy < 450 || yy > 580){
+ if(xx > 580){
+  Serial.print("Joy stick x");
+  Serial.println(xx);
+  Keyboard.write("j");
+ }
 
+  if(yy < 450){
     Serial.print("Joy stick y");
     Serial.println(yy);
-    
+    Keyboard.write("k");
   }
 
-  Serial.println(joyStickSwitch);
-  
-  if(joyStickSwitch == HIGH){
-    
-    Serial.println("Joy stick pushed!");
-    
+  if(yy > 580){
+    Serial.print("Joy stick y");
+    Serial.println(yy);
+    Keyboard.print("i");
   }
+  
+  /*if(joyStickSwitch == HIGH){
+    
+    Serial.print("Joy stick pushed: ");
+    Serial.println(joyStickSwitch);
+    
+  }*/
+
+  /*if(digitalRead(switchPin) == HIGH){
+    Serial.print("Switch pushed: ");
+    Serial.println(digitalRead(switchPin));
+  }*/
   
   delay(20);
 }
